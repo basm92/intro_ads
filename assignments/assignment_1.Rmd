@@ -1,0 +1,37 @@
+---
+title: | 
+  | Assignment 1: The Causes of Economic Growth
+  | Introduction to Applied Data Science
+  | 2022-2023
+author: |
+  | Bas Machielsen
+  | a.h.machielsen@uu.nl
+date: April 2023
+urlcolor: purple
+linkcolor: purple
+output: 
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+---
+
+## Assignment 1: The Causes of Economic Growth
+
+In this assignment, you will gather data from the _World Bank_ website, and augment it with data from the _Clio Infra_ website. Then, you will visualize these data using several graphs and tables, and test several hypotheses about the causes of economic growth. You will use this document to complete the code chunks which I have left unfinished to produce your own data analysis & visualization. 
+
+
+### World Bank Data
+
+### Clio Infra Data
+
+### Cleaning and Reshaping the Data
+
+
+### Merging the Data
+
+
+### Summarizing and Analyzing the Data
+
+
+
+

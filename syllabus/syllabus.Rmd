@@ -1,0 +1,152 @@
+---
+title: | 
+  | Course Manual
+  | Introduction to Applied Data Science
+  | 2022-2023
+author: |
+  | Bas Machielsen
+  | a.h.machielsen@uu.nl
+date: April 2023
+urlcolor: purple
+linkcolor: purple
+output: 
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+---
+
+## Course Description
+
+```{r, echo = FALSE, message = FALSE}
+library(lubridate)
+date_firstassignment <- "tba"
+date_secondassignment <- "tba"
+date_thirdassignment <- "tba"
+
+officehours <- "Thursday 16:00 - 17:00"
+```
+
+Data Science is an emergent discipline growing faster due to the large amounts of data that we are generating, the maturity of information and communication technologies (ICT) and the high availability of high-end computational systems. Data Science works in the intersection between statistics, mathematics and computer programming. However, the key emphasis of Data Science is difference than the other disciplines. Statistics and Econometrics justify the development of algorithms primarily for inferential methods: parameter estimation for causal effect. However, in Data Science, the development of algorithms is justified to make more precise predictions and for complex problem-solving (Efron, 2021). Data Science and Machine Learning (ML) use powerful numerical methods and computer training to solve problems (Athey and Imbens, 2019). Data Science focuses on the one hand on how to process and interpret data to answer real-world questions. On the other hand, relies heavily on strong coding skills, to acquire, clean, manipulate and visualize data for analysis. 
+
+In this course, we develop these skills using the R-language, which has many advantages for Data Science. Firstly, is a free open-source computer language with a large community of Data Scientists, Economists and Statisticians working together to develop state-of-the-art algorithms and packages. Secondly, there is a large market of companies and universities that require knowledge of R. Thus, the main objective of this course is to introduce students with no prior knowledge of R-programming to tools and methods used in Data Science.
+
+- This course features one weekly lecture (2 contact hours), and 1 tutorial (2 contact hours), and office hours, during which students can ask questions `r officehours`. You can also ask questions by e-mail. 
+
+\clearpage
+
+## Overview
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+
+info <- tribble(~ "", ~ "", 
+        "Code", "ECB1ID",
+        "Period", "4",
+        "Timeslot", "B (Tuesday Morning, Thursday Afternoon)", 
+        "Level", "1",
+        "ECTS", "7.5", 
+        "Course Type", "Optimal Minor Course",
+        "Programme", "BSc Economics & Business Economics",
+        "Department", "U.S.E., Applied Economics",
+        "Coordinator/Lecturer", "Bas Machielsen",
+        "Tutorial Teachers", "Tba",
+        "Language", "English")
+
+knitr::kable(info)
+
+```
+
+## Course Materials
+
+You don't need to buy any books for this course, but we use a couple of resources that you should read as a preparation for lectures/assignments. These are references materials that are regularly updated following the newest changes in the R community. 
+
+  - [R for Data Science](https://r4ds.had.co.nz/): This book will teach you how to do data science with R: You’ll learn how to get your data into R, get it into the most useful structure, transform it, visualize it and model it.
+  - [RMarkdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/), which is designed to provide a range of examples on how to extend the functionality of your R Markdown documents. 
+  - [Happy Git With R](https://happygitwithr.com/): Happy Git provides opinionated instructions on how to install Git and get it working smoothly with GitHub, in the shell and in the RStudio IDE. It also contains a few key workflows that cover your most common tasks, and how to integrate Git and GitHub into your daily work with R and R Markdown.
+  - **Lecture Slides and Assignments** are available on Blackboard, but also [here](https://github.com/basm92/intro_ads)
+
+
+## Schedule and Syllabus
+
+```{r, echo = FALSE}
+syllabus <- tribble(
+  ~ "Event", ~"Date", ~"Subject", ~"Materials",
+  "Lecture", "1", "Introduction to Data Science and Big Data", "",
+  "Working Group", "1", "Setting up RStudio", "",
+  "Lecture", "2", "Programming Basics", "",
+  "Working Group", "2", "Using Tidyverse", "",
+  "Lecture", "3", "Tables and Graphs", "",
+  "Working Group", "3", "Getting Data, Visualizing and Summarizing", "",
+  "Lecture", "4", "Programming Flow & Algorithms", "",
+  "Working Group", "4", "Writing your own gradient descent", "",
+  "Lecture", "5", "Debugging & Handling Errors", "",
+  "Working Group", "5", "Debugging Strategies", "",
+  "Lecture", "6", "Writing Reports in RMarkdown", "",
+  "Working Group", "6", "Doing Data Analysis", "",
+  "Lecture", "7", "Collaborating Effectively with Version Control", "",
+  "Working Group", "7", "Creating and Changing a Github Repository", "",
+  "Lecture", "8", "The Ethics of AI", "",
+  "Working Group", "8", "Ethical Dilemmas", "",
+)
+
+knitr::kable(syllabus,  booktabs=TRUE)
+
+```
+
+## Assignments
+
+This course has three intermediate assignments. These will be uploaded to Blackboard, but they are also available [here]: 
+```{r echo = FALSE}
+assignments <- tribble(
+  ~"Assignment", ~"Deadline",
+  "Assignment 1: The Causes of Economic Growth", date_firstassignment,
+  "Assignment 2: Predicting Poverty", date_secondassignment,
+  "Assignment 3: Collaborating Together", date_thirdassignment
+)
+
+knitr::kable(assignments, booktabs=TRUE)
+
+```
+
+## Prerequisites
+
+Mathematics, Statistics and introductory economics courses. This course is part of the Dedicated Minor in Applied Data Science for Economists. This is the first course, following which you will learn about:
+
+  - Introduction to Programming in R (ECB2PR, year 2, period 3)
+  - Data Analysis & Visualization I - Supervised Learning (ECB2ADAVE, year 2, period 4)
+  - Data Analysis & Visualization II - Unsupervised Learning (ECB3ADAVE2, year 3, period 1)
+  - Applied Microeconometric Techniques (year 3, period 2)
+  - Data Science Lab for Economics (year 3, period 3)
+  
+  
+## Learning Objectives
+
+On effective completion of the course, students should:
+
+  - Understand principles of programming on an applied level
+  - Particularly, understand and be able to independently produce R code solving applied problems
+  - Being able to extrapolate the knowledge to other programming languages
+  - Gather, manipulate and wrangle untidy datasets
+  - Understand how to deal with errors and how to debug code
+  - Be able to read and exploit to their advantage code, package & function documentation
+  - Implement several elementary algorithms to solve concrete problems
+  - Be able to analyze and show results in a tidy and well-organized way
+  - Effectively collaborate together using version control
+  - Be able to reflect on the use of AI and Big Data in society
+  
+On successful attendance of the lectures, students should: 
+
+  - have knowledge of the importance of Data Science and Machine learning.
+  - understand algorithmic thinking.
+  - understand the difference between causation and correlation
+  - be able to distinguish between descriptive, predictive, prescriptive and causal analysis.
+  - have awareness of the role of Data Science for Economics and its role in society.
+  
+## Grading and Inspection
+
+- The course will feature three individual assignments and one final exam. All assignments have to be handed in. The
+assignments have a weight of 60% and the final exam weight of 40% for the final grade. After the exam, students have the right to inspect their exam and assignment. Information about this will be announced in due time on Blackboard. 
+
+- All grades are rounded upward to two decimal places. Examples: 5.493 becomes 5.50, meaning _pass_, 5.490 becomes 5.49 meaning _fail_. 
+
+- If the final grade is below 5.50, there is a possibility of a resit, but only if the effort requirement is satisfied. No resit opportunity is possible for people obtained grades higher than 5.50. 

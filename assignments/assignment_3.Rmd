@@ -1,0 +1,23 @@
+---
+title: | 
+  | Assignment 3: Collaborating Together
+  | Introduction to Applied Data Science
+  | 2022-2023
+author: |
+  | Bas Machielsen
+  | a.h.machielsen@uu.nl
+  | http://www.github.com/basm92
+date: April 2023
+urlcolor: purple
+linkcolor: purple
+output: 
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+---
+
+## Assignment 3: Collaborating Together 
+
+In this assignment, you will analyze a dataset of X collaborations. What's more, you will pair up with a class mate and contribute to each other's document. Afterwards, you will host this document online, preferably on your Github repository, from which I will download and grade it. 
+
+- This time, make sure to not only put your name and student e-mail in your Rmarkdown header, but also your Github account, as I have done myself. 
