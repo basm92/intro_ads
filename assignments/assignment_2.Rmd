@@ -84,13 +84,13 @@ poverty_data <- poverty_data %>%
 ```
 The rename function follows the `new = old` syntax, which you can verify by typing `?rename` in the console. 
 
-Next, we will download datasets related to varieties of democracy. 
+Next, we will download datasets related to varieties of democracy. This package is not available on the official R package repository CRAN, but it a custom package which is downloadable from somebody's github repository. To download packages from Github, we need the `devtools` package, and then, we can install the package using the `install_github()` function. 
 
 ```{r eval=FALSE}
 #install.packages("devtools")
-#devtools::install_github("xmarquez/vdem")
 ```
 
+After installing the package, we want to load the dataset from the package. 
 
 **Question x**: Find out what the median is of the $1.90 poverty head count variable in the dataset you downloaded. Make a new dummy variable `povyesno`, meaning: 
 
@@ -100,11 +100,132 @@ $$
 0 &\mbox{ otherwise }
 \end{cases}
 $$
+You can easily do so using the `if_else` function from `dplyr`. Check `?if_else` for its syntax. 
 
 ```{r}
 poverty_data <- poverty_data %>%
   mutate(povyesno = if_else(poverty > median(poverty, na.rm = TRUE), 1, 0))
 ```
 
+## Building a linear regression model 
+
 Now, we want to predict poverty by means of two factors: (i) historical educational investment, and (ii) political stability. We will undertake various efforts to obtain these data from different sources. 
+
+
+Linear regression can also be performed using an analytical solution for the minimum loss. This function is implemented in R in the `lm` function. Check the syntax for the `lm` method using `?lm`.
+
+**Question x**: Verify that the solution from the analytical model (`lm(y ~ x1 + x2, data = dataset)`) is identical to the solution you obtained when performing gradient descent. 
+
+**Question x**: you can also report a summary of the model estimated using the `modelsummary` package and function. Report a summary of the model below. 
+
+```{r eval=FALSE}
+model1 <- lm(y ~ x1 + x2, data = dataset)
+
+modelsummary::modelsummary(model1)
+```
+
+**Question x**: Give an interpretation of the model. What happens when a country becomes more democratic, and what would happen to poverty if a country had invested more in education? 
+
+
+**Question x**: Generate the predicted values from the model. Find the _highest_ predicted value. For which country is this? And what is the predicted value? Use code to find all of this information. 
+
+
+## Building a logistic regression model
+
+Finally, we'll analyze the same data using a logistic regression model. A key element in a logistic regression model is the so-called _sigmoid_ function. The sigmoid function $S(x)$ is defined as follows:
+
+$$
+S(x) = \frac{1}{1+e^{-x}}
+$$
+**Question x**: Implement the sigmoid function as a function in R
+
+```{r}
+
+sigmoid <- function(x){
+  1 / (1 + exp(-x))
+}
+
+```
+
+**Question x**: Differentiate the sigmoid function with respect to $x$. Rewrite this derivative to show that it is equal to $S(x) (1-S(x))$ using the definition of $S(x)$ given above. 
+
+
+**Question x**: Implement the derivative of the sigmoid function in R.
+
+```{r}
+sigmoid_derivative <- function(x){
+  
+  sigmoid(x) * (1-sigmoid(x))
+  
+}
+
+```
+
+A nice thing about this sigmoid function is that its outcomes always fall between 0 and 1. We'll use the sigmoid function to build a logistic regression model. In particular, instead of a simple argument $x$, we are predicting the outcome, poverty, on the basis of the same two independent variables as before, and two corresponding coefficients. Our sigmoid function would thus look like this:
+
+$$
+\text{Poverty}_i = \frac{1}{1+e^{-[\alpha + \beta_1 \cdot \text{educ}_i + \beta_2 \cdot \text{stab}_i]}}
+$$
+
+**Question x**: Use the chain rule from calculus to identify the derivatives of the above particular sigmoid function with respect to $\text{education}_i$ and $\text{stability}_i$ and $\alpha$. Hint: use the result from above, and use that:
+
+$$
+\frac{\partial S(.)}{\partial{\text{education}_i}} = \frac{\partial S(x)}{\partial x} \cdot \frac{\partial x}{\partial \text{education}_i}
+$$
+
+In the next few steps, we want to implement these functions in our gradient descent algorithm. We can largely use the same setup as we used in the linear model, with the exception of the derivates. Please fill the derivatives in this algorithm yourself:
+
+```{r}
+gradient_descent <- function(x, y, learn_rate, conv_threshold = 0.00001, n = length(y), max_iter = 5000) {
+  #plot(x, y, col = "blue", pch = 20)
+  #initialize constant term, beta1 and beta2
+  alpha <- runif(1, 0, 10)
+  beta1 <- runif(1, 0, 10)
+  beta2 <- runif(1, 0, 10)
+  
+  #create the predicted values
+  yhat <- 1 / (1+sigmoid(alpha + beta1*x[1] + beta2*x[2]))
+  MSE <- sum((y - yhat) ^ 2) / n
+  
+  converged = F
+  iterations = 0
+  
+  while(converged == F) {
+    ## Implement the gradient descent algorithm
+    alpha_new <- alpha - learn_rate * ((1 / n) * (sum(sigmoid_derivative(alpha + beta1*x[1] + beta2*x[2]))))
+    beta1_new <- beta1 - learn_rate * ((1 / n) * (sum(sigmoid_derivative(alpha + beta1*x[1] + beta2*x[2]))*beta1))
+    beta2_new <- beta2 - learn_rate * ((1 / n) * (sum(sigmoid_derivative(alpha + beta1*x[1] + beta2*x[2]))*beta2))
+    
+    ## Write the updated coefficients and compute predictions again
+    alpha <- alpha_new
+    beta1 <- beta1_new
+    beta2 <- beta2_new
+    
+    yhat <- 1 / (1+sigmoid(alpha + beta1*x[1] + beta2*x[2]))
+    MSE_new <- sum((y - yhat) ^ 2) / n
+    
+    if(MSE - MSE_new <= conv_threshold) {
+      #abline(c, m) 
+      converged = T
+      return(paste("Optimal intercept:", alpha,
+                   "Optimal slope x1:", beta1, 
+                   "Optimal slope x2:", beta2))
+    }
+    iterations = iterations + 1
+    if(iterations > max_iter) { 
+      #abline(c, m) 
+      converged = T
+      return(paste("Optimal intercept:", alpha, 
+                   "Optimal slope x1:", beta1, 
+                   "Optimal slope x2:", beta2))
+    }
+  }
+  }
+
+
+```
+
+```{r}
+gradient_descent(mtcars[1:2], mtcars$vs, 1)
+```
 
