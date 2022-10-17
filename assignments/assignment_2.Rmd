@@ -35,7 +35,11 @@ from the document, and replace them with:
 output: pdf_document
 ```
 
-To start building statistical models that predict poverty, we need to proceed in the following way. We will predict poverty in a simple setting, and predict poverty on the basis of educational attainment and democracy scores. We will start from scratch, meaning that we ourselves will look for relevant data sources, put them together, and build some simple statistical models. Finally, we will check our solutions against standard benchmarks, and will attempt to interpret them. 
+To start building statistical models that predict poverty, we need to proceed in the following way. We will predict poverty in a simple setting, and predict poverty on the basis of educational attainment and democracy scores. We will start from scratch, meaning that we ourselves will look for relevant data sources, put them together, and build some simple statistical models. Finally, we will check our solutions against standard benchmarks, and will attempt to interpret them. We will also set a seed to make answers comparable:
+
+```{r}
+set.seed(2)
+```
 
 ### 2. Obtain the required poverty data
 
@@ -158,7 +162,7 @@ data <- data %>%
 Next, we will want to integrate information about educational attainment. Fortunately, the _World Bank_ also collects many different kinds of data on educational attainment. For an impression, have a look at:
 
 ```{r}
-test <- wbstats::wb_search("educational attainment")
+educ_search <- wbstats::wb_search("educational attainment")
 ```
 
 For this setting, we'll take the variable `SE.PRM.CUAT.ZS`, which is the fraction of the population aged 25 and over that at least complete primary education. 
@@ -179,16 +183,16 @@ education <- education %>% select(1:5) %>% na.omit() %>% rename(educ = `SE.PRM.C
 data <- left_join(data, education, by = c("iso2c" = "iso2c", "date" = "date"))
 ```
 
-There are a couple of unnecessary variables in your dataset. They can be removed using the `select` function in the following way:
+There are a couple of unnecessary variables in your dataset, and the merges have caused some `NA`s. They can be removed using the `select` function in the following way:
 
 ```{r}
 data <- data %>%
-  select(-iso3c.x, -country.x, -iso3c.y, -country.y)
+  select(-iso3c.x, -country.x, -iso3c.y, -country.y) %>% 
+  na.omit()
 
 ```
 
 Now we are ready to train a statistical model. 
-
 
 ### 5. Building a linear regression model 
 
@@ -199,12 +203,86 @@ $$
 $$
 This model estimates the coefficients $\alpha, \beta_1$ and $\beta_2$. Do you think $\beta_1$ and $\beta_2$ will be greater than zero, smaller than zero, or zero, and why?
 
-It turns out that this linear model can be solved using the gradient descent algorithm. This means that we are describing a loss function, randomly initialize parameters, and then compute the gradient, and move the parameters in the direction _opposite_ the largest increase. Below is an implementation of such an algorithm. You do not have to change much, but you have to implement the gradients for $\beta_1$ and $\beta_2$ yourself. 
+It turns out that this linear model can be solved using the gradient descent algorithm. This means that we are describing a loss function, randomly initialize parameters, and then compute the gradient, and move the parameters in the direction _opposite_ the largest increase. 
 
+In this case, the loss function we use is:
+
+$$
+\mathcal{L}(y, \hat{y}) = - \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y})^2
+$$
+where $\hat{y}_i = \alpha + \beta_1 \cdot \text{democracy}_i + \beta_2 \cdot \text{education}_i$, the predicted value for $y_i$, given values of education and democracy, and parameter values $\alpha, \beta_1, \beta_2$. It is our job to set the parameters such that our loss function is minimized. To do so, we employ gradient descent. This involves taken the derivative of the loss function with respect to the parameters $\alpha, \beta_1, \beta_2$. Let's focus on $\beta_1$, then you can do the remainder by yourself. 
+
+$$
+\frac{\partial L}{\partial \beta_1} = - \frac{1}{n} \sum_{i=1}^n \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial \beta_1} = - \frac{1}{n} \sum_{i=1}^n 2 (y_i - \hat{y}) \cdot x_i
+$$
+
+In practice, people often leave out the $-2$ constant term, and write the gradient as follows:
+
+$$
+\frac{\partial L}{\partial \beta_1} = \frac{1}{n} \sum_{i=1}^n (\hat{y}-y_i) \cdot x_i
+$$
+
+..so that the following updating rule for the $\beta$-coefficients can be determined:
+
+$$
+\beta^i+1 = \beta^i - \gamma \cdot \frac{1}{n} \sum_{i=1}^n (\hat{y}-y_i) \cdot x_i
+$$
+
+Below is an implementation of such an algorithm. You do not have to change much, but you have to implement the gradients for $\beta_1$ and $\beta_2$ yourself. 
+
+```{r, cache=TRUE}
+gradient_descent <- function(x, y, learn_rate, conv_threshold, n, max_iter) {
+  beta1 <- runif(1, 0, 1)
+  beta2 <- runif(1, 0, 1)
+  alpha <- runif(1, 0, 1)
+  yhat <- beta1 * x[,1] + beta2 * x[,2] + alpha
+  MSE <- sum((y - yhat) ^ 2) / n
+  converged = F
+  iterations = 0
+  while(converged == F) {
+    ## Implement the gradient descent algorithm
+    ## Complete the derivatives in the three lines below
+    beta1_new <- beta1 - learn_rate * ((1 / n) * (sum((yhat - y) * x[,1])))
+    beta2_new <- beta2 - learn_rate * ((1 / n) * sum((yhat - y) * x[,2]))
+    alpha_new <- alpha - learn_rate * ((1 / n) * (sum(yhat - y)))
+    
+    beta1 <- beta1_new
+    beta2 <- beta2_new
+    alpha <- alpha_new
+    
+    yhat <- beta1 * x[,1] + beta2 * x[,2] + alpha
+    MSE_new <- sum((y - yhat) ^ 2) / n
+    
+    if(MSE - MSE_new <= conv_threshold) {
+      converged = T
+      return(paste("Converged. Optimal intercept:", alpha, "Optimal slope:", beta1, beta2))
+    }
+    iterations = iterations + 1
+    if(iterations > max_iter) { 
+      converged = T
+      return(paste("Optimal intercept:", alpha, "Optimal slope:", beta1, beta2))
+    }
+  }
+}
+```
+
+Next, we'll run the algorithm. You'll get an output containing three numbers, the estimated $\alpha, \beta_1, and \beta_2$, corresponding to a constant term, `education`, `democracy` respectively. 
+
+```{r}
+gradient_descent(cbind(data$educ, data$democracy), 
+                 data$poverty, 
+                 learn_rate = 0.0001,
+                 conv_threshold = 0.001, 
+                 n = length(data$poverty), 
+                 2500000)
+
+```
+
+**Question x**: Print the three numbers you got in your RMarkdown document. Note: the algorithm might take a couple of minutes to run. 
 
 ### 6. Building a logistic regression model
 
-Finally, we'll analyze the same data using a logistic regression model. A key element in a logistic regression model is the so-called _sigmoid_ function. The sigmoid function $S(x)$ is defined as follows:
+Finally, we'll analyze the same data using a logistic regression model. This time, however, we will analyze not the `poverty` variable, but a dichotomized version of it: `povyesno`, which you created before. A key element in a logistic regression model is the so-called _sigmoid_ function. The sigmoid function $S(x)$ is defined as follows:
 
 $$
 S(x) = \frac{1}{1+e^{-x}}
@@ -220,7 +298,6 @@ sigmoid <- function(x){
 ```
 
 **Question x**: Differentiate the sigmoid function with respect to $x$. Rewrite this derivative to show that it is equal to $S(x) (1-S(x))$ using the definition of $S(x)$ given above. 
-
 
 **Question x**: Implement the derivative of the sigmoid function in R.
 
@@ -249,56 +326,56 @@ In the next few steps, we want to implement these functions in our gradient desc
 **Question x**: fill the derivatives in this algorithm yourself. 
 
 ```{r}
-gradient_descent <- function(x, y, 
-                             learn_rate, 
-                             conv_threshold = 1e-10,
-                             n = length(y), 
-                             max_iter = 5000) {
-  alpha <- runif(1, 0, 1)
-  beta_1 <- runif(1, 0, 1)
-  beta_2 <- runif(1, 0, 1)
+gradient_descent <- function(x, y, learn_rate, conv_threshold, n, max_iter) {
+  beta1 <- runif(1, -0.5, 0.1)
+  beta2 <- runif(1, -0.5, -0)
+  alpha <- runif(1, 4, 5)
   
-  yhat <- sigmoid(alpha + beta_1 * x[,1] + beta_2 * x[,2])
-  MSE <- -(1 / n) * sum(y * log(yhat) + (1-y)* log(1-yhat))
+  yhat <- sigmoid(alpha + beta1 * x[,1] + beta2 * x[,2])
+  loss <- -(1 / n) * sum(y * log(yhat) + (1-y)* log(1-yhat))
+  
   converged = F
   iterations = 0
   
   while(converged == F) {
-
-    MSE <- -(1 / n) * sum(y * log(yhat) + (1-y)* log(1-yhat))
-    alpha_new <- alpha - learn_rate * (1 / n) * (sum((yhat - y)))
-    beta_1_new <- beta_1 - learn_rate * (1 / n) * 
-      (sum((yhat - y)*x[,1])) # fill in here
-    beta_2_new <- beta_2 - learn_rate * (1 / n) * 
-      (sum((yhat - y)*x[,2])) # fill in here
-   
-    alpha <- alpha_new
-    beta_1 <- beta_1_new
-    beta_2 <- beta_2_new
+    ## Implement the gradient descent algorithm
+    ## Complete the derivatives in the three lines below
+    beta1_new <- beta1 - learn_rate * ((1 / n) * (sum((yhat - y) * x[,1])))
+    beta2_new <- beta2 - learn_rate * ((1 / n) * sum((yhat - y) * x[,2]))
+    alpha_new <- alpha - learn_rate * ((1 / n) * (sum(yhat - y)))
     
-    yhat <- sigmoid(alpha + beta_1 * x[,1] + beta_2 * x[,2])
-    MSE_new <- -(1 / n) * sum(y * log(yhat) + (1-y)* log(1-yhat))
-
-    if(abs(MSE - MSE_new) <= conv_threshold) {
+    beta1 <- beta1_new
+    beta2 <- beta2_new
+    alpha <- alpha_new
+    
+    yhat <- sigmoid(alpha + beta1 * x[,1] + beta2 * x[,2])
+    loss_new <- -(1 / n) * sum(y * log(yhat) + (1-y)* log(1-yhat))
+    
+    if(loss - loss_new <= conv_threshold) {
       converged = T
       return(paste("Converged. Optimal intercept:", alpha, 
-                   "Optimal slope beta1:", beta_1, 
-                   "Optimal slope beta2:", beta_2))
+                   "Optimal slope:", beta1, beta2))
     }
-    
     iterations = iterations + 1
     if(iterations > max_iter) { 
       converged = T
-      return(paste("Optimal intercept:", alpha,
-                   "Optimal slope beta1:", beta_1, 
-                   "Optimal slope beta2:", beta_2))
+      return(paste("Optimal intercept:", alpha, 
+                   "Optimal slope:", beta1, beta2))
     }
   }
 }
 
-
 ```
 
+Now we can use this algorithm to run our gradient descent algorithm, this time for a logistic regression model. You can expect it to take about a minute:
+
+```{r}
+gradient_descent(cbind(data$educ, data$democracy), data$povyesno,
+                 learn_rate = 0.001, 
+                 conv_threshold = 0.0001, 
+                 n = length(data$povyesno),
+                 max_iter = 1500000)
+```
 
 
 ```{r, message=FALSE}
@@ -330,7 +407,7 @@ gradient_descent(x = x, y = y, 0.5, conv_threshold = 1e-10, max_iter = 50000)
 
 Both linear regression and logistic regression can also be performed using an analytical solution for the minimum loss. For linear regression, this function is implemented in R in the `lm` function. Check the syntax for the `lm` method using `?lm`.
 
-**Question x**: Verify that the solution from the analytical model (`lm(y ~ x1 + x2, data = dataset)`) is identical to the solution you obtained when performing gradient descent. 
+**Question x**: Verify that the solution from the analytical model (`lm(y ~ x1 + x2, data = datas)`) is identical to the solution you obtained when performing gradient descent. 
 
 **Question x**: you can also report a summary of the model estimated using the `modelsummary` package and function. Report a summary of the model below. 
 
@@ -347,4 +424,11 @@ Finally, we also want to use what we've learned about poverty.
 **Question x**: Generate the predicted values from the model. Find the _highest_ predicted value. For which country is this? And what is the predicted value? Use code to find all of this information. 
 
 
+**Question x**: Verify that the solution for the logistic regression model is nearly identical to the solution from your gradient descent algorithm's output. Logistic regression in R can be done with `glm(data = data, povyesno ~ educ + democracy, link = "binomial")`. 
+
+```{r}
+glm(data = data, povyesno ~ educ + democracy, family="binomial") %>% summary()
+
+# 5.86, -0.07, -0.001
+```
 
