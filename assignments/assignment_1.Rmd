@@ -19,19 +19,248 @@ output:
 
 In this assignment, you will gather data from the _World Bank_ website, and augment it with data from the _Clio Infra_ website. Then, you will visualize these data using several graphs and tables, and test several hypotheses about the causes of economic growth. You will use this document to complete the code chunks which I have left unfinished to produce your own data analysis & visualization. 
 
+To start with, please replace my name and e-mail address with yours. Then, remove the lines:
 
-### World Bank Data
+```
+output: 
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+```
+from the document and replace them by:
 
-### Clio Infra Data
+```
+output: pdf_document
+```
+Now, we're ready to start. For all of the code-related questions, please answer with code, and do not type (or copy) the answer from the console. Rather, let R _generate_ your answer. 
 
-### Cleaning and Reshaping the Data
+### 1. World Bank Data
+
+The _World Bank_ collects and processes large amounts of data and generates them on the basis of economic models. These data and models have gradually been made available to the public in a way that encourages reuse. In particular, the databases of the World Bank are available on [https://data.worldbank.org/](https://data.worldbank.org/). It pays the effort to browse through the website, see if you can navigate your way through the website, and use the interface the World Bank provides you. 
+
+Normally, if you were looking for data from the World Bank, you would go to the website, find your dataset, download it to `.xlsx` or any other format, and then import it into an R `data.frame` using `read_xslx(.)`, or something else. But, this reliance on manual downloads of spreadsheets of the data they are interested in can quickly become overwhelming, as the work is manual, time consuming, and not easily reproducible. 
+
+Fortunately, however, there also exist an R package which allows you to browse swiftly through World Bank data, and easily download it as an R `data.frame`. You can get this package by installing:
+
+```{r}
+library(pacman)
+p_load("wbstats", "tidyverse")
+```
+
+You can navigate the database by searching for terms:
+
+```{r}
+wbstats::wb_search("gdp per capita")
+```
+
+Afterwards, you can proceed to download data by executing `wb_data("indicator_id")`. You can then write this to a data.frame, and merge this data with other indicators to create a dataset. There exist many of these packages, and we will also use another today.
+
+Apart from being easy to use, these packages also have another advantage: reproducibility. Collecting data by means of code allows other users to unambiguously reproduce your data collection process. 
+
+Firstly, we will look for GDP growth data. 
+
+**Question x**: pass a search query to `wb_search` for GDP growth data, and download the indicator for which the description matches "_GDP (current US$)_". The full description should read:
+
+> GDP at purchaser's prices is the sum of gross value added by all resident producers in the economy plus any product taxes and minus any subsidies not included in the value of the products. It is calculated without making deductions for depreciation of fabricated assets or for depletion and degradation of natural resources. Data are in current U.S. dollars. Dollar figures for GDP are converted from domestic currencies using single year official exchange rates. For a few countries where the official exchange rate does not reflect the rate effectively applied to actual foreign exchange transactions, an alternative conversion factor is used.
+
+```{r, cache = TRUE}
+wbstats::wb_search("GDP")
+gdp <- wbstats::wb_data('NY.GDP.MKTP.CD')
+```
+
+**Question**: Rename the variable `NY.GDP.MKTP.CD` to `gdp`. Remove the `NA` observations from the dataset. How many observations are there in the dataset in total?
+
+```{r}
+gdp <- gdp %>% 
+  rename(gdp = `NY.GDP.MKTP.CD`) %>%
+  filter(!is.na(gdp))
+
+nrow(gdp)
+```
+
+**Question x**: How many observations per country are there? Show the first ten observations. 
+
+```{r}
+gdp %>%
+  group_by(country) %>%
+  summarize(count = n()) %>%
+  head(10)
+```
+**Question x**: How many different years are there in the dataset? Put them in increasing order. 
+
+```{r}
+gdp %>%
+  select(date) %>% 
+  pull() %>%
+  unique() %>% 
+  sort()
+```
+
+**Question x**: For each country, what is the first and last year? Again show the first ten observations. 
+
+```{r}
+gdp %>%
+  group_by(country) %>%
+  summarize(first_year = min(date), last_year = max(date))
+```
+
+**Question**: Make a summary of the data, with the mean, median, sd, min and max values for `gdp`.
+
+```{r}
+gdp %>%
+  summarize(mean = mean(gdp),
+            median = median(gdp), 
+            sd = sd(gdp), 
+            min = min(gdp), 
+            max = max(gdp))
+
+```
 
 
-### Merging the Data
+**Question**: What country, in which year, had the lowest GDP? And the highest? Hint: use a function similar to `slice` from the `dplyr` package. 
+
+```{r}
+slice_min(gdp, gdp, n = 1)
+
+slice_max(gdp, gdp, n = 1)
+```
+
+Next, we'll have a look at population data, which we can also retrieve from the World Bank database. 
+
+```{r}
+population <- wb_data("SP.POP.TOTL")
+```
+
+**Question**: Rename the population variable to `population` and overwrite this to memory.
+
+```{r}
+population <- population %>%
+  rename(population = `SP.POP.TOTL`)
+```
+
+Finally, we'll merge `population` with `gdp` on the basis of _country_ and _year_. 
+
+**Question**: use `left_join` to merge `gdp` (left data.frame) with `population` (right data frame). Check whether everything has gone correctly. Save this dataframe to memory as `gdp_pop`. Select only `country, date, isco2c.x, gdp` and `population`. Then, use `mutate()` to create a new variable, `gdp_cap = gdp / population`. Then, again apply `na.omit()`. Write this data.frame to memory to `data`. 
+
+```{r}
+data <- left_join(gdp, population, 
+          by = c("country" = "country", 
+                 "date" = "date")) %>%
+  select(country, date, iso2c.x, gdp, population) %>%
+  na.omit() %>%
+  mutate(gdp_cap = gdp / population)
+
+```
+
+Now, let's collect a pre-made version of GDP per capita from the World Bank website. 
+
+```{r}
+wb_search("gdp per capita")
+
+alt_gdp_pc <- wb_data('NY.GDP.PCAP.CD') %>%
+  filter(!is.na(`NY.GDP.PCAP.CD`))
+```
 
 
-### Summarizing and Analyzing the Data
+**Question**: What is the correlation between these two variables? What does that mean?
+
+```{r}
+cor(data$gdp_cap, alt_gdp_pc$NY.GDP.PCAP.CD)
+```
 
 
 
+### Capital Stock
 
+Next, we'll proceed to find some potential determinants of GDP growth. One of the classical determinants of GDP per capita growth is the level of physical capital. Many models in macroeconomics explain economic well-being on account of the amount of capital in an economy. In particular, we'll look for a few measures from the Penn World Tables. This data has to be downloaded manually from [this website](https://www.rug.nl/ggdc/productivity/pwt/). You can download an Excel file. Make sure to put it in the right directory when reading it:
+
+```{r}
+p_load("readxl")
+
+pwt <- readxl::read_excel('pwt100.xlsx', sheet = 3)
+```
+
+
+We are looking for the `cn` variable, which indicates _Capital stock at current PPPs (in mil. 2017US$)_. 
+
+
+### 2. Clio Infra Data
+
+
+
+### 3. Cleaning and Reshaping the Data
+
+
+### 4. Merging the Data
+
+
+### 5. Summarizing and Analyzing the Data
+
+**Question**: Create a descriptive statistics table using the variables we have obtained. In it, we want to display the mean, median, sd, min, max and number of observations. Hint: use the `modelsummary` package. 
+
+```{r}
+library(modelsummary)
+
+
+```
+
+
+We would also like to make a map displaying economic growth rates. In order to do so, we need the `sf` package, short for _Spatial Features_. This is an efficient format in which data used to construct maps are stored. We also need a couple of auxiliary packages:
+
+```{r}
+library(tidyverse); library(sf)
+```
+
+Possibly, we also have to install a couple of auxiliary packages:
+
+```{r}
+pacman::p_load("rgdal", "rgeos", "lwgeom")
+```
+
+Let us first find a map of the world: 
+
+```{r}
+library(maps)
+world <- st_as_sf(map("world", plot = FALSE, fill = TRUE))
+```
+
+We converted the world map from the `maps` package to an `sf` data.frame.
+
+```{r}
+world
+```
+
+`world` is now a data.frame, countaining the names of countries and associated polygons. We can use this object to create a simple map:
+
+```{r}
+world_map <- ggplot(world) + 
+  geom_sf(fill = "grey80", 
+          col = "grey40", 
+          lwd = 0.3)
+
+world_map
+```
+
+It is also possible to change projections. [Here](https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf) is a short primer on different projections. For you, this is not particularly relevant, but it allows you to pick a projection which you like. Here's an example:
+
+```{r}
+world_map +
+  coord_sf(crs = "+proj=laea +y_0=0 +lon_0=0 +lat_0=0") +
+  labs(subtitle = "Lambert Azimuthal Equal Area projection")
+```
+
+Should we want to zoom in on a particular part of the world, that is also possible. To do that, we can filter the dataframe based on many features, for example, on coordinates:
+
+```{r}
+sf_use_s2(FALSE)
+
+world %>%
+  st_crop(xmin = -22, 
+          ymin = 35, 
+          xmax = 40, 
+          ymax = 70) %>% 
+  ggplot() + geom_sf()
+```
+
+
+**Question x**: Take your `data.frame` world, and match it to the GDP growth rates in 2020. 

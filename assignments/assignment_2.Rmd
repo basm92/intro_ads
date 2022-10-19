@@ -41,13 +41,15 @@ To start building statistical models that predict poverty, we need to proceed in
 set.seed(2)
 ```
 
+You have to hand in a **pdf** knitted `.Rmarkdown` document on Blackboard before the deadline. The basis of the document is the present document, which you will fill in yourself with your own code snippets, answers to open questions, and code output (figures, tables, etc.). 
+
 ### 2. Obtain the required poverty data
 
-Next, we are going to make use of the `wbstats` package, which you have seen before. If you haven't done so already, you can install the package with `install.packages('wbstats')`. Make sure not to put this in your Rmarkdown document, as R will then attempt to install this package every time you knit your document. 
+We are going to make use of the `wbstats` package, which you have seen before. If you haven't done so already, you can install the package with `install.packages('wbstats')`. Make sure not to put this in your Rmarkdown document, as R will then attempt to install this package every time you knit your document. 
 
 The `wbstats` package allows you to navigate the World Bank database, and download datasets without having to visit the World Bank website, download the data into a spreadsheet, and subsequently load it into R. With the help of this package, we just download the data into R right away. 
 
-**Question 1**: Read [this](https://cran.r-project.org/web/packages/wbstats/vignettes/wbstats.html) so-called vignette to find out how to navigate the World Bank data using the `wbstats` package. Download the variable that measures the "_Poverty headcount ratio at national poverty lines (% of population)_", the proportion of the population with daily per capita income below the national poverty line. 
+**Question x**: Read [this](https://cran.r-project.org/web/packages/wbstats/vignettes/wbstats.html) so-called vignette to find out how to navigate the World Bank data using the `wbstats` package. Download the variable that measures the "_Poverty headcount ratio at national poverty lines (% of population)_", the proportion of the population with daily per capita income below the national poverty line. 
 
 ```{r}
 library(wbstats)
@@ -76,7 +78,7 @@ poverty_data <- poverty_data %>%
   na.omit()
 ```
 
-**Question 2:** For which countries is this data available? Print a vector of the first 10 unique country names. Do not type a string variable of all the country names yourself, but use code to extract this. 
+**Question x:** For which countries is this data available? Print a vector of the first 10 unique country names. Do not type a string variable of all the country names yourself, but use code to extract this. 
 
 ```{r}
 poverty_data %>% select(country) %>% pull() %>% unique() %>% head(10)
@@ -114,13 +116,13 @@ After installing the package, we want to load a dataset from the package. To get
 anckar <- democracyData::anckar
 ```
 
-Have a look at the dataset:
+Have a look at the Anckar and Fredriksson dataset we just downloaded:
 
 ```{r}
 head(anckar)
 ```
 
-The dataset contains a couple of indicators whether a country is a democracy at a given point in time as judged by the authors mentioned above. There is also some miscellaneous information. However, if we compare this dataset to the `poverty_data` dataset, we notice that some countries have different names. It will therefore be difficult to bring them together. Fortunately, the `democracyData` dataset contains a function called `country_year_coder`, which allows us to look up country code. As you may have noticed, we extracted 
+The dataset contains a couple of indicators whether a country is a democracy at a given point in time as judged by the authors mentioned above. There is also some miscellaneous information. However, if we compare this dataset to the `poverty_data` dataset, we notice that some countries have different names. It will therefore be difficult to bring them together. Fortunately, the `democracyData` dataset contains a function called `country_year_coder`, which allows us to look up country code. This is where the `iso2c` (or `iso3c`) variable comes in handy. 
 
 ```{r, results=FALSE, warning=FALSE, message=FALSE}
 anckar <- democracyData::country_year_coder(anckar, 
@@ -130,13 +132,17 @@ anckar <- democracyData::country_year_coder(anckar,
                                           include_in_output = "iso2c")
 ```
 
-Now, we want to select the variables `iso2c` and `democracy`, and merge them to the `poverty_data` dataframe. 
+As you may have noticed, by executing this command, we have supplemented our `data.frame` with an `iso2c` column. This, in turn, allows us to match (better terminology: merge) the observations according to the observations in the `poverty_data` dataset. 
+
+But before that, we remove variables we do not need: we want to select the variables `iso2c`, `year`, and `democracy`, and merge them to the `poverty_data` dataframe. 
+
+**Question x**: Select these variables and write them to a `data.frame` called `to_be_merged`. 
 
 ```{r}
 to_be_merged <- anckar %>% select(iso2c, year, democracy)
 ```
 
-**Question x**: Use the `left_join` command to merge these two variables to the `poverty_data` dataframe. Read `?left_join` to correctly specify the `by` argument in this function. 
+**Question x**: Use the `left_join` command to merge these two variables to the `poverty_data` dataframe. Read `?left_join` to correctly specify the `by` argument in this function. Make sure to match on two variables: the `iso2c` codes and the years. 
 
 ```{r}
 data <- left_join(poverty_data, to_be_merged, by = c("iso2c" = "iso2c", "date" = "year"))
@@ -150,6 +156,7 @@ $$
 0 &\mbox{ otherwise }
 \end{cases}
 $$
+
 You can easily do so using the `if_else` function from `dplyr`. Check `?if_else` for its syntax. 
 
 ```{r}
@@ -165,7 +172,9 @@ Next, we will want to integrate information about educational attainment. Fortun
 educ_search <- wbstats::wb_search("educational attainment")
 ```
 
-For this setting, we'll take the variable `SE.PRM.CUAT.ZS`, which is the fraction of the population aged 25 and over that at least complete primary education. 
+For this setting, we'll take the variable `SE.PRM.CUAT.ZS`, which is the fraction of the population aged 25 and over that at least complete primary education in a particular country in a particular year. 
+
+**Question x**: Download this variable and store it in a dataset called `education` using the function `wb_data`. 
 
 ```{r}
 education <- wb_data('SE.PRM.CUAT.ZS')
@@ -201,6 +210,7 @@ Now, we want to predict poverty by means of two factors: (i) historical educatio
 $$
 \text{poverty}_i = \alpha + \beta_1 \cdot \text{democracy}_i + \beta_2 \cdot \text{education}_i + \epsilon_i
 $$
+
 This model estimates the coefficients $\alpha, \beta_1$ and $\beta_2$. Do you think $\beta_1$ and $\beta_2$ will be greater than zero, smaller than zero, or zero, and why?
 
 It turns out that this linear model can be solved using the gradient descent algorithm. This means that we are describing a loss function, randomly initialize parameters, and then compute the gradient, and move the parameters in the direction _opposite_ the largest increase. 
@@ -210,6 +220,7 @@ In this case, the loss function we use is:
 $$
 \mathcal{L}(y, \hat{y}) = - \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y})^2
 $$
+
 where $\hat{y}_i = \alpha + \beta_1 \cdot \text{democracy}_i + \beta_2 \cdot \text{education}_i$, the predicted value for $y_i$, given values of education and democracy, and parameter values $\alpha, \beta_1, \beta_2$. It is our job to set the parameters such that our loss function is minimized. To do so, we employ gradient descent. This involves taken the derivative of the loss function with respect to the parameters $\alpha, \beta_1, \beta_2$. Let's focus on $\beta_1$, then you can do the remainder by yourself. 
 
 $$
@@ -255,12 +266,14 @@ gradient_descent <- function(x, y, learn_rate, conv_threshold, n, max_iter) {
     
     if(MSE - MSE_new <= conv_threshold) {
       converged = T
-      return(paste("Converged. Optimal intercept:", alpha, "Optimal slope:", beta1, beta2))
+      return(paste("Converged. Optimal intercept:", alpha, "Optimal slopes:", "\n", 
+                   beta1,  beta2))
     }
     iterations = iterations + 1
     if(iterations > max_iter) { 
       converged = T
-      return(paste("Optimal intercept:", alpha, "Optimal slope:", beta1, beta2))
+      return(paste("Optimal intercept:", alpha, "Optimal slopes:", "\n",
+                   beta1, beta2))
     }
   }
 }
@@ -269,7 +282,7 @@ gradient_descent <- function(x, y, learn_rate, conv_threshold, n, max_iter) {
 Next, we'll run the algorithm. You'll get an output containing three numbers, the estimated $\alpha, \beta_1, and \beta_2$, corresponding to a constant term, `education`, `democracy` respectively. 
 
 ```{r}
-gradient_descent(cbind(data$educ, data$democracy), 
+linear_gd <- gradient_descent(cbind(data$educ, data$democracy), 
                  data$poverty, 
                  learn_rate = 0.0001,
                  conv_threshold = 0.001, 
@@ -321,7 +334,10 @@ $$
 $$
 \frac{\partial S(.)}{\partial{\text{education}_i}} = \frac{\partial S(x)}{\partial x} \cdot \frac{\partial x}{\partial \text{education}_i}
 $$
-In the next few steps, we want to implement these functions in our gradient descent algorithm. We can largely use the same setup as we used in the linear model, with the exception of the derivates. 
+
+Write the results in an equation delineated by `$$ $$`, or take a picture with your phone, upload it and insert it in the document by typing `![](\link_to_picture.png)` in the document. 
+
+In the next few steps, we want to implement these functions in our gradient descent algorithm. We can largely use the same setup as we used in the linear model, with the exception of the derivatives, because the loss function you use is slightly different.  
 
 **Question x**: fill the derivatives in this algorithm yourself. 
 
@@ -338,7 +354,6 @@ gradient_descent <- function(x, y, learn_rate, conv_threshold, n, max_iter) {
   iterations = 0
   
   while(converged == F) {
-    ## Implement the gradient descent algorithm
     ## Complete the derivatives in the three lines below
     beta1_new <- beta1 - learn_rate * ((1 / n) * (sum((yhat - y) * x[,1])))
     beta2_new <- beta2 - learn_rate * ((1 / n) * sum((yhat - y) * x[,2]))
@@ -354,13 +369,13 @@ gradient_descent <- function(x, y, learn_rate, conv_threshold, n, max_iter) {
     if(loss - loss_new <= conv_threshold) {
       converged = T
       return(paste("Converged. Optimal intercept:", alpha, 
-                   "Optimal slope:", beta1, beta2))
+                   "Optimal slopes:", beta1, "\n", beta2))
     }
     iterations = iterations + 1
     if(iterations > max_iter) { 
       converged = T
       return(paste("Optimal intercept:", alpha, 
-                   "Optimal slope:", beta1, beta2))
+                   "Optimal slopes:", beta1, "\n", beta2))
     }
   }
 }
@@ -370,65 +385,57 @@ gradient_descent <- function(x, y, learn_rate, conv_threshold, n, max_iter) {
 Now we can use this algorithm to run our gradient descent algorithm, this time for a logistic regression model. You can expect it to take about a minute:
 
 ```{r}
-gradient_descent(cbind(data$educ, data$democracy), data$povyesno,
+
+logit_gd <- gradient_descent(cbind(data$educ, data$democracy), data$povyesno,
                  learn_rate = 0.001, 
-                 conv_threshold = 0.0001, 
+                 conv_threshold = 0.01, 
                  n = length(data$povyesno),
-                 max_iter = 1500000)
+                 max_iter = 1.5e6)
 ```
-
-
-```{r, message=FALSE}
-library(AER)
-data("GrowthDJ")
-
-GrowthDJ <- GrowthDJ %>%
-  na.omit() %>%
-  mutate(gdp60 = gdp60/10000, popgrowth = popgrowth/10, growth = if_else(gdpgrowth > median(gdpgrowth, na.rm = TRUE), 1, 0))
-
-glm(growth ~ gdp60 + popgrowth, data = GrowthDJ) %>% summary()
-
-x = cbind(GrowthDJ$gdp60, GrowthDJ$popgrowth)
-y = GrowthDJ$growth
-```
-
-```{r}
-glm(y ~ x, family="binomial") %>% summary()
-```
-
-Now, we will check the outcome of the gradient descent algorithm. 
-
-```{r}
-gradient_descent(x = x, y = y, 0.5, conv_threshold = 1e-10, max_iter = 50000)
-```
-
 
 ### 7. Evaluate your output and compare it to standard solutions
 
-Both linear regression and logistic regression can also be performed using an analytical solution for the minimum loss. For linear regression, this function is implemented in R in the `lm` function. Check the syntax for the `lm` method using `?lm`.
+In this section, we'll think about the output of our analysis and the interpretation of our results. Both linear regression and logistic regression can also be performed using an analytical solution for the minimum loss. For linear regression, this function is implemented in R in the `lm` function. Check the syntax for the `lm` method using `?lm`.
 
-**Question x**: Verify that the solution from the analytical model (`lm(y ~ x1 + x2, data = datas)`) is identical to the solution you obtained when performing gradient descent. 
+**Question x**: Verify that the solution from the analytical model (`lm(y ~ x1 + x2, data = data)`) is identical to the solution you obtained when performing gradient descent. 
 
-**Question x**: you can also report a summary of the model estimated using the `modelsummary` package and function. Report a summary of the model below. 
+```{r}
+linear_model <- lm(poverty ~ educ + democracy, data = data)
+linear_model
+```
+
+
+**Question x**: Verify that the solution from the analytical logistic regression model `glm(y ~ x1 + x2, data = data, family = "binomial)` is identical to the solution when performing gradient descent. 
+
+```{r}
+logit_model <- glm(povyesno ~ educ + democracy, data = data, family = "binomial")
+logit_model
+```
+
+**Question x**: you can also report a summary of the models estimated using the `modelsummary` package and function. Report a summary of the model below. Add stars indicating statistical significance to your table. 
 
 ```{r eval=FALSE}
-model1 <- lm(y ~ x1 + x2, data = dataset)
-
-modelsummary::modelsummary(model1)
+modelsummary::modelsummary(list(
+  "Poverty" = linear_model,      
+  "Poverty (Yes/No)" = logit_model), 
+  stars=T)
 ```
 
 Finally, we also want to use what we've learned about poverty. 
 
-**Question x**: Give an interpretation of the model. What happens when a country becomes more democratic, and what would happen to poverty if a country had invested more in education? 
+**Question x**: Give an interpretation of the linear model. What would happen to poverty when a country becomes more democratic, and what would happen to poverty if a country had invested more in education? Is the effect large? Explain.
 
-**Question x**: Generate the predicted values from the model. Find the _highest_ predicted value. For which country is this? And what is the predicted value? Use code to find all of this information. 
+**Question x**: Give an interpretation of the logistic regression model. What would happen the likelihood to be poor when a country becomes more democratic, and what would happen if a country had invested more in education? Is the effect large? Explain.
 
-
-**Question x**: Verify that the solution for the logistic regression model is nearly identical to the solution from your gradient descent algorithm's output. Logistic regression in R can be done with `glm(data = data, povyesno ~ educ + democracy, link = "binomial")`. 
+**Question x**: Generate the predicted values from the linear model. Find the _highest_ predicted value. For which country is this (show the `iso2c` code) And what is the predicted value? Use code to find all of this information. Hint: use `predict` and `which.max`, and then look at `data`. 
 
 ```{r}
-glm(data = data, povyesno ~ educ + democracy, family="binomial") %>% summary()
+number <- predict(linear_model) %>% which.max()
+value <- predict(linear_model) %>% max()
 
-# 5.86, -0.07, -0.001
+value
+
+data[number,]
 ```
 
+## The End
