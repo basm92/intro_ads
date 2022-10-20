@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  19 OCT 2022 17:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  20 OCT 2022 22:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -425,44 +425,151 @@ Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \extratabsurround=\skip55
 \backup@length=\skip56
 \ar@cellbox=\box63
-)) (/usr/share/texlive/texmf-dist/tex/latex/bookmark/bookmark.sty
+)) (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip57
+\LTright=\skip58
+\LTpre=\skip59
+\LTpost=\skip60
+\LTchunksize=\count304
+\LTcapwidth=\dimen187
+\LT@head=\box64
+\LT@firsthead=\box65
+\LT@foot=\box66
+\LT@lastfoot=\box67
+\LT@gbox=\box68
+\LT@cols=\count305
+\LT@rows=\count306
+\c@LT@tables=\count307
+\c@LT@chunks=\count308
+\LT@p@ftn=\toks27
+) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip61
+\multirow@cntb=\count309
+\multirow@dima=\skip62
+\bigstrutjot=\dimen188
+) (/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen189
+\WF@size=\dimen190
+\c@WF@wrappedlines=\count310
+\WF@box=\box69
+\WF@everypar=\toks28
+Package: wrapfig 2003/01/31  v 3.6
+) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count311
+\float@exts=\toks29
+\float@box=\box70
+\@float@everytoks=\toks30
+\@floatcapt=\box71
+) (/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks31
+\minrowclearance=\skip63
+) (/usr/share/texlive/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+) (/usr/share/texlive/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed) + inter
+mediate FMi
+(/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box72
+\sift@deathcycles=\count312
+\@vwid@loff=\dimen191
+\@vwid@roff=\dimen192
+)
+\c@taburow=\count313
+\tabu@nbcols=\count314
+\tabu@cnt=\count315
+\tabu@Xcol=\count316
+\tabu@alloc=\count317
+\tabu@nested=\count318
+\tabu@target=\dimen193
+\tabu@spreadtarget=\dimen194
+\tabu@naturalX=\dimen195
+\tabucolX=\dimen196
+\tabu@Xsum=\dimen197
+\extrarowdepth=\dimen198
+\abovetabulinesep=\dimen199
+\belowtabulinesep=\dimen256
+\tabustrutrule=\dimen257
+\tabu@thebody=\toks32
+\tabu@footnotes=\toks33
+\tabu@box=\box73
+\tabu@arstrutbox=\box74
+\tabu@hleads=\box75
+\tabu@vleads=\box76
+\tabu@cellskip=\skip64
+) (/usr/share/texlive/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box77
+) (/usr/share/texlive/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip65
+) (/usr/share/texlive/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box78
+\UL@hyphenbox=\box79
+\UL@skip=\skip66
+\UL@hook=\toks34
+\UL@height=\dimen258
+\UL@pe=\count319
+\UL@pixel=\dimen259
+\ULC@box=\box80
+Package: ulem 2019/11/18
+\ULdepth=\dimen260
+) (/usr/share/texlive/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen261
+\c@nlinenum=\count320
+\TeXr@lab=\toks35
+) (/usr/share/texlive/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count304
+\BKM@id=\count321
 )) (/usr/share/texlive/texmf-dist/tex/latex/xurl/xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 128.
+Package hyperref Info: Option `colorlinks' set `true' on input line 144.
 Package translations Info: No language package found. I am going to use `englis
-h' as default language. on input line 137.
+h' as default language. on input line 153.
 (./assignment_1.aux)
 \openout1 = `assignment_1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Info: Redefining \microtypecontext on input line 137.
-Package microtype Info: Applying patch `item' on input line 137.
-Package microtype Info: Applying patch `toc' on input line 137.
-Package microtype Info: Applying patch `eqnum' on input line 137.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Info: Redefining \microtypecontext on input line 153.
+Package microtype Info: Applying patch `item' on input line 153.
+Package microtype Info: Applying patch `toc' on input line 153.
+Package microtype Info: Applying patch `eqnum' on input line 153.
 
-Package microtype Warning: Unable to apply patch `footnote' on input line 137.
+Package microtype Warning: Unable to apply patch `footnote' on input line 153.
 
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
@@ -470,7 +577,7 @@ Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 137.
+LaTeX Info: Redefining \showhyphens on input line 153.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -479,17 +586,17 @@ File: mt-bch.cfg 2007/03/03 v1.5 microtype config. file: Bitstream Charter (RS)
 
 ) (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count305
-\scratchdimen=\dimen187
-\scratchbox=\box64
-\nofMPsegments=\count306
-\nofMParguments=\count307
-\everyMPshowfont=\toks27
-\MPscratchCnt=\count308
-\MPscratchDim=\dimen188
-\MPnumerator=\count309
-\makeMPintoPDFobject=\count310
-\everyMPtoPDFconversion=\toks28
+\scratchcounter=\count322
+\scratchdimen=\dimen262
+\scratchbox=\box81
+\nofMPsegments=\count323
+\nofMParguments=\count324
+\everyMPshowfont=\toks36
+\MPscratchCnt=\count325
+\MPscratchDim=\dimen263
+\MPnumerator=\count326
+\makeMPintoPDFobject=\count327
+\everyMPtoPDFconversion=\toks37
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -532,7 +639,7 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 137.
+Package hyperref Info: Link coloring ON on input line 153.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -540,11 +647,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count311
+\c@section@level=\count328
 )
-LaTeX Info: Redefining \ref on input line 137.
-LaTeX Info: Redefining \pageref on input line 137.
-LaTeX Info: Redefining \nameref on input line 137.
+LaTeX Info: Redefining \ref on input line 153.
+LaTeX Info: Redefining \pageref on input line 153.
+LaTeX Info: Redefining \nameref on input line 153.
 
 (/usr/share/texlive/texmf-dist/tex/latex/translations/translations-basic-dictio
 nary-english.trsl
@@ -552,9 +659,9 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 137.
+or `english'. on input line 153.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-39.
+55.
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg
@@ -562,34 +669,34 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (RS)
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-39.
+55.
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-139.
+155.
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-139.
+155.
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 139.
+(Font)              <12> on input line 155.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 139.
+(Font)              <8> on input line 155.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 139.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 139
+(Font)              <6> on input line 155.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 155
 .
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 139
+LaTeX Font Info:    Trying to load font information for U+msb on input line 155
 .
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -597,75 +704,109 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-54.
+70.
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 178.
+(Font)              <10> on input line 194.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 178.
+(Font)              <7> on input line 194.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 178.
+(Font)              <5> on input line 194.
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-280.
+296.
 (/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [3] [4] [5] [6]
-<assignment_1_files/figure-latex/unnamed-chunk-21-1.pdf, id=51, 459.7175pt x 21
+) [3] [4] [5] [6] [7] [8]
+<assignment_1_files/figure-latex/unnamed-chunk-29-1.pdf, id=59, 453.695pt x 313
+.17pt>
+File: assignment_1_files/figure-latex/unnamed-chunk-29-1.pdf Graphic file (type
+ pdf)
+<use assignment_1_files/figure-latex/unnamed-chunk-29-1.pdf>
+Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-29-1.pdf
+  used on input line 815.
+(pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
+<assignment_1_files/figure-latex/unnamed-chunk-30-1.pdf, id=60, 459.7175pt x 31
+3.17pt>
+File: assignment_1_files/figure-latex/unnamed-chunk-30-1.pdf Graphic file (type
+ pdf)
+<use assignment_1_files/figure-latex/unnamed-chunk-30-1.pdf>
+Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-30-1.pdf
+  used on input line 837.
+(pdftex.def)             Requested size: 459.7304pt x 313.17877pt.
+[9 <./assignment_1_files/figure-latex/unnamed-chunk-29-1.pdf>]
+<assignment_1_files/figure-latex/unnamed-chunk-31-1.pdf, id=72, 459.7175pt x 31
+5.1775pt>
+File: assignment_1_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type
+ pdf)
+<use assignment_1_files/figure-latex/unnamed-chunk-31-1.pdf>
+Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-31-1.pdf
+  used on input line 859.
+(pdftex.def)             Requested size: 459.74442pt x 315.19595pt.
+[10 <./assignment_1_files/figure-latex/unnamed-chunk-30-1.pdf>] [11 <./assignme
+nt_1_files/figure-latex/unnamed-chunk-31-1.pdf>]
+<assignment_1_files/figure-latex/unnamed-chunk-36-1.pdf, id=95, 459.7175pt x 21
 0.7875pt>
-File: assignment_1_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type
+File: assignment_1_files/figure-latex/unnamed-chunk-36-1.pdf Graphic file (type
  pdf)
-<use assignment_1_files/figure-latex/unnamed-chunk-21-1.pdf>
-Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-21-1.pdf
-  used on input line 657.
+<use assignment_1_files/figure-latex/unnamed-chunk-36-1.pdf>
+Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-36-1.pdf
+  used on input line 937.
 (pdftex.def)             Requested size: 459.72337pt x 210.79019pt.
-<assignment_1_files/figure-latex/unnamed-chunk-22-1.pdf, id=53, 313.17pt x 315.
+<assignment_1_files/figure-latex/unnamed-chunk-37-1.pdf, id=97, 313.17pt x 315.
 1775pt>
-File: assignment_1_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type
+File: assignment_1_files/figure-latex/unnamed-chunk-37-1.pdf Graphic file (type
  pdf)
-<use assignment_1_files/figure-latex/unnamed-chunk-22-1.pdf>
-Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-22-1.pdf
-  used on input line 673.
+<use assignment_1_files/figure-latex/unnamed-chunk-37-1.pdf>
+Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-37-1.pdf
+  used on input line 953.
 (pdftex.def)             Requested size: 313.17877pt x 315.18634pt.
-[7 <./assignment_1_files/figure-latex/unnamed-chunk-21-1.pdf>]
-Overfull \hbox (13.24358pt too wide) in paragraph at lines 702--702
-[]\T1/lmtt/m/n/10 ## although coordinates are longitude/latitude, st_intersecti
-on assumes that they are planar[] 
- []
-
-<assignment_1_files/figure-latex/unnamed-chunk-23-1.pdf, id=64, 350.30875pt x 3
-13.17pt>
-File: assignment_1_files/figure-latex/unnamed-chunk-23-1.pdf Graphic file (type
+[12 <./assignment_1_files/figure-latex/unnamed-chunk-36-1.pdf>]
+<assignment_1_files/figure-latex/unnamed-chunk-38-1.pdf, id=107, 350.30875pt x 
+313.17pt>
+File: assignment_1_files/figure-latex/unnamed-chunk-38-1.pdf Graphic file (type
  pdf)
-<use assignment_1_files/figure-latex/unnamed-chunk-23-1.pdf>
-Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-23-1.pdf
-  used on input line 709.
+<use assignment_1_files/figure-latex/unnamed-chunk-38-1.pdf>
+Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-38-1.pdf
+  used on input line 972.
 (pdftex.def)             Requested size: 350.31857pt x 313.17877pt.
-[8 <./assignment_1_files/figure-latex/unnamed-chunk-22-1.pdf>] [9 <./assignment
-_1_files/figure-latex/unnamed-chunk-23-1.pdf>] (./assignment_1.aux) ) 
+[13 <./assignment_1_files/figure-latex/unnamed-chunk-37-1.pdf>]
+<assignment_1_files/figure-latex/unnamed-chunk-40-1.pdf, id=120, 453.695pt x 16
+8.63pt>
+File: assignment_1_files/figure-latex/unnamed-chunk-40-1.pdf Graphic file (type
+ pdf)
+<use assignment_1_files/figure-latex/unnamed-chunk-40-1.pdf>
+Package pdftex.def Info: assignment_1_files/figure-latex/unnamed-chunk-40-1.pdf
+  used on input line 996.
+(pdftex.def)             Requested size: 453.6939pt x 168.62958pt.
+[14 <./assignment_1_files/figure-latex/unnamed-chunk-38-1.pdf> <./assignment_1_
+files/figure-latex/unnamed-chunk-40-1.pdf>] [15] (./assignment_1.aux) ) 
 Here is how much of TeX's memory you used:
- 18126 strings out of 478287
- 337560 string characters out of 5849290
- 660945 words of memory out of 5000000
- 35887 multiletter control sequences out of 15000+600000
- 525360 words of font info for 152 fonts, out of 8000000 for 9000
+ 19762 strings out of 478287
+ 365478 string characters out of 5849290
+ 689693 words of memory out of 5000000
+ 37433 multiletter control sequences out of 15000+600000
+ 527998 words of font info for 170 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,7n,79p,1009b,923s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/shar
-e/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-e
-c.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/te
-xlive/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/share/texmf/fonts/type1/public/
-lm/lmtt10.pfb>
-Output written on assignment_1.pdf (9 pages, 1096190 bytes).
+ 70i,10n,79p,1009b,923s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/sh
+are/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm
+/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fon
+ts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/
+8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/share/texm
+f/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr1
+0.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/font
+s/type1/public/lm/lmtti10.pfb>
+Output written on assignment_1.pdf (15 pages, 1617665 bytes).
 PDF statistics:
- 141 PDF objects out of 1000 (max. 8388607)
- 110 compressed objects within 2 object streams
- 24 named destinations out of 1000 (max. 500000)
- 24648 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 211 PDF objects out of 1000 (max. 8388607)
+ 156 compressed objects within 2 object streams
+ 28 named destinations out of 1000 (max. 500000)
+ 24660 words of extra memory for PDF output out of 24883 (max. 10000000)
 

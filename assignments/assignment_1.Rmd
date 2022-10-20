@@ -15,6 +15,10 @@ output:
       in_header: "preamble.tex"
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
 ## Assignment 1: The Causes of Economic Growth
 
 In this assignment, you will gather data from the _World Bank_ website, and augment it with data from the _Clio Infra_ website. Then, you will visualize these data using several graphs and tables, and test several hypotheses about the causes of economic growth. You will use this document to complete the code chunks which I have left unfinished to produce your own data analysis & visualization. 
@@ -140,13 +144,13 @@ population <- population %>%
 
 Finally, we'll merge `population` with `gdp` on the basis of _country_ and _year_. 
 
-**Question**: use `left_join` to merge `gdp` (left data.frame) with `population` (right data frame). Check whether everything has gone correctly. Save this dataframe to memory as `gdp_pop`. Select only `country, date, isco2c.x, gdp` and `population`. Then, use `mutate()` to create a new variable, `gdp_cap = gdp / population`. Then, again apply `na.omit()`. Write this data.frame to memory to `data`. 
+**Question**: use `left_join` to merge `gdp` (left data.frame) with `population` (right data frame). Check whether everything has gone correctly. Save this dataframe to memory as `gdp_pop`. Select only `country, date, isco3c.x, gdp` and `population`. Then, use `mutate()` to create a new variable, `gdp_cap = gdp / population`. Then, again apply `na.omit()`. Write this data.frame to memory to `data`. 
 
 ```{r}
 data <- left_join(gdp, population, 
           by = c("country" = "country", 
                  "date" = "date")) %>%
-  select(country, date, iso2c.x, gdp, population) %>%
+  select(country, date, iso3c.x, gdp, population) %>%
   na.omit() %>%
   mutate(gdp_cap = gdp / population)
 
@@ -154,7 +158,7 @@ data <- left_join(gdp, population,
 
 Now, let's collect a pre-made version of GDP per capita from the World Bank website. 
 
-```{r}
+```{r get gdp_cap, eval = FALSE}
 wb_search("gdp per capita")
 
 alt_gdp_pc <- wb_data('NY.GDP.PCAP.CD') %>%
@@ -164,13 +168,11 @@ alt_gdp_pc <- wb_data('NY.GDP.PCAP.CD') %>%
 
 **Question**: What is the correlation between these two variables? What does that mean?
 
-```{r}
+```{r eval = FALSE}
 cor(data$gdp_cap, alt_gdp_pc$NY.GDP.PCAP.CD)
 ```
 
-
-
-### Capital Stock
+### 2. World Tables: Capital Stock
 
 Next, we'll proceed to find some potential determinants of GDP growth. One of the classical determinants of GDP per capita growth is the level of physical capital. Many models in macroeconomics explain economic well-being on account of the amount of capital in an economy. In particular, we'll look for a few measures from the Penn World Tables. This data has to be downloaded manually from [this website](https://www.rug.nl/ggdc/productivity/pwt/). You can download an Excel file. Make sure to put it in the right directory when reading it:
 
@@ -183,29 +185,172 @@ pwt <- readxl::read_excel('pwt100.xlsx', sheet = 3)
 
 We are looking for the `cn` variable, which indicates _Capital stock at current PPPs (in mil. 2017US$)_. 
 
+**Question**: Select the variables `countrycode, year`, and `cn`, and rewrite the dataframe to memory.
 
-### 2. Clio Infra Data
+```{r}
+pwt <- pwt %>%
+  select(countrycode, year, cn)
+```
+
+Now, we're looking to merge the two data.frames `data` and `pwt`, on the basis of common country names and years. 
+
+**Question:** Have a look at the two datasets below. On the basis of which two matched variables in both datasets do you have to perform the merge? 
+
+```{r}
+pwt
+
+data
+```
+
+We can do this in various ways: we can perform `left_join`, `right_join`, `inner_join`, or `outer_join`, but we can also use the `merge` function. Although their arguments differ somewhat, the results should absolutely be the same provided you specify the `by` arguments correctly. In that case, you match one particular country-year from the left data.frame to the identical particular country-year from the right data-frame, and put all variables together.
+
+**Question**: Do this. Perform a merge and save the resulting data.frame to `merged_data`. 
+
+```{r}
+merged_data <- merge(data, pwt, by.x = c("iso3c.x", "date"), by.y=c("countrycode", "year"))
+```
+
+Next, we want to average GDP per capita and Capital stock for each country present in the dataset. This can be done easily using the `mutate` function from the `tidyverse` package. However, we want to investigate _current_ GDP per capita, so we do not want to take too long an average.
+
+Say we want to take an average over the years 2010-2020. 
+
+**Question**: Finish the following code to compute the average of GDP per capita and Capital stock. Make sure you deal with NA's explicitly. Save this again to `merged_data` 
+
+```{r}
+merged_data <- merged_data %>%
+  group_by(country, iso3c.x) %>%
+  filter(between(date, 2010, 2020)) %>%
+  summarize(
+    # fill in your answer here
+    avg_gdpc = mean(gdp_cap, na.rm = TRUE),
+    avg_cn = mean(cn, na.rm = TRUE)
+  )
+
+```
+
+### 3. Historical Antecedents: Clio Infra Data
+
+Another important element of capital might be not only physical capital, but human capital! Instead of using _contemporary_ human capital to explain economic development in 2010-2020, we will use _historical_ human capital. For this, we can again use a package, called `Clio`, which aggregates various historical datasets. You can install and load it by:
+
+```{r}
+devtools::install_github("basm92/Clio")
+library(Clio)
+```
+
+You can see what variables are available in this dataset by running:
+
+```{r}
+Clio::clio_overview() %>% head(10)
+```
+
+As a proxy to measure historical human capital, we'll use _Average Years of Education_ in 1930. We can download this by running:
+
+```{r}
+educ <- Clio::clio_get("Average Years of Education")
+```
+
+**Question**: Filter this dataset such that only observations from 1930 remain. 
+
+```{r}
+educ <- educ %>%
+  filter(year == 1930)
+```
+
+**Question**: Merge this dataset to the `merged_data` set, so that the human capital proxy is added to the dataset. 
+
+When discussing economic growth, some people also talk about a _reversal of fortune_ tendency: the countries that were relatively the most wealthy in or before the Middle Ages are among the poorest now, and vice versa. We also want to investigate such an hypothesis. In order to do so, we use a proxy for wealth from 1500, the urbanization ratio. This can also be downloaded from the Clio Infra database. 
+
+**Question**: Now find and download Urbanization Ratio, filter the dataset such that only observations from 1500 remain, and save it to `urb`. 
+
+```{r}
+urb <- clio_get("Urbanization Ratio") %>%
+  filter(year == 1500) 
+```
+
+Now, let's merge `educ` and `urb` together, and then subsequently merge this to the `merged_data` data.frame. 
+
+```{r}
+educ_urb <- merge(educ, urb, by = "ccode")
+```
+
+**Question**: Also remove `year.x`, `year.y` and `country.name.y` from the dataset.
+
+```{r}
+educ_urb <- educ_urb %>%
+  select(-c(year.x, year.y, country.name.y))
+```
 
 
+Finally, we need to merge `educ_urb` to the `merged_data` data.frame. 
 
-### 3. Cleaning and Reshaping the Data
+**Question**: Merge these two dataframes using `left_join`, with `merged_data` being the left data.frame. Rename `Average Years of Education` and `Urbanization Ratio` to `av_educ` and `urban` respectively. 
+
+```{r}
+final <- merged_data %>%
+  left_join(educ_urb, 
+            by = c("country" = "country.name.x")) %>%
+  rename(av_educ = `Average Years of Education`, urban = `Urbanization Ratio`)
+```
 
 
-### 4. Merging the Data
+### 4. Summarizing and Analyzing the Data
 
-
-### 5. Summarizing and Analyzing the Data
-
-**Question**: Create a descriptive statistics table using the variables we have obtained. In it, we want to display the mean, median, sd, min, max and number of observations. Hint: use the `modelsummary` package. 
+**Question**: Create a descriptive statistics table using the variables we have obtained. In it, we want to display the mean, median, sd, min, max and number of observations. Hint: use the `modelsummary` package, and use the following syntax for the formula: `x1 + x2 + x3 + x4 ~ (mean + median + min + max)*Arguments(na.rm = TRUE) + N`. 
 
 ```{r}
 library(modelsummary)
 
-
+modelsummary::datasummary(data = final, avg_gdpc + avg_cn + av_educ + urban ~ 
+                            (mean + median + min + max)*Arguments(na.rm = TRUE) + N)
 ```
 
+Next, we would like to make a histogram of the four aforementioned variables, to investigate their distribution. To do so, we need data in so-called long-form:
 
-We would also like to make a map displaying economic growth rates. In order to do so, we need the `sf` package, short for _Spatial Features_. This is an efficient format in which data used to construct maps are stored. We also need a couple of auxiliary packages:
+```{r}
+final_long <- final %>%
+  pivot_longer(c(avg_gdpc, avg_cn, av_educ, urban), names_to = "variable", values_to = "value")
+```
+
+With this dataset, we can create a histogram with four facets:
+
+**Question x**: Add the right geometry element to complete the histograms. 
+
+```{r}
+final_long %>%
+  ggplot(aes(x = value, group = variable, fill = variable)) + 
+  facet_wrap(~variable, scales = "free") +
+  # fill in the right answer
+  geom_histogram()
+```
+
+Next, we would like to make a plot of some of the data. In particular, we can use the `ggplot` library to create a scatterplot of urbanization in 1500 on the $x$ axis and $\log$ (GDP per capita) on the $y$ axis. That would allow us to get insight into the _reversal of fortune_ theory.
+
+**Question**: Use `ggplot` to create a plot as described above. Hint: use `geom_point()` as the geometric attribute. Also try to see if you can display the country name corresponding to each dot. 
+
+```{r warning = FALSE}
+final %>%
+  ggplot(aes(x = urban, y = log(avg_gdpc))) +
+  geom_point() + 
+  geom_text(aes(label=country), nudge_x = 0.01, nudge_y = 0.2)
+```
+
+**Question**: Do you interpret this as evidence for the _reversal of fortune_ theory? Why (not)? 
+
+Secondly, we can plot GDP per capita ($y$-axis) against the capital stock ($x$-axis). In this case, we want to log-transform both of the variables. 
+
+**Question**: Construct this plot. Also make sure to add a nice title and to change the axis titles appropriately. 
+
+```{r warning = FALSE}
+final %>%
+  ggplot(aes(x=log(avg_cn), y = log(avg_gdpc))) + geom_point() +
+  xlab("Log (Capital Stock)") +
+  ylab("Log (GDP Per Capita)") +
+  ggtitle("Relationship between Capital Stock and Economic Well-Being")
+```
+
+**Question**: Do you interpret this as evidence for the logic of most macroeconomic models, that a higher capital stock causes a higher level of income? Why (not)? 
+
+Finally, we would also like to make a map displaying economic growth rates. In order to do so, we need the `sf` package, short for _Spatial Features_. This is an efficient format in which data used to construct maps are stored. We also need a couple of auxiliary packages:
 
 ```{r}
 library(tidyverse); library(sf)
@@ -263,4 +408,19 @@ world %>%
 ```
 
 
-**Question x**: Take your `data.frame` world, and match it to the GDP growth rates in 2020. 
+**Question x**: Take your `data.frame` world, and merge it with the `final` data.frame containing the GDP growth rates. Save this to a data.frame called `world_data`. 
+
+```{r}
+world_data <- world %>% 
+  left_join(final, by = c("ID" = "country"))
+```
+
+
+Now, plot a map displaying `avg_gdpc` in different countries. Hint: use the `geom_sf(fill = avg_gdpc)` as geometric attribute. 
+
+```{r}
+world_data %>%
+  ggplot() + geom_sf(aes(fill = log(avg_gdpc))) + scale_fill_viridis_b()
+```
+
+## The End
