@@ -174,10 +174,13 @@ cor(data$gdp_cap, alt_gdp_pc$NY.GDP.PCAP.CD)
 
 ### 2. World Tables: Capital Stock
 
-Next, we'll proceed to find some potential determinants of GDP growth. One of the classical determinants of GDP per capita growth is the level of physical capital. Many models in macroeconomics explain economic well-being on account of the amount of capital in an economy. In particular, we'll look for a few measures from the Penn World Tables. This data has to be downloaded manually from [this website](https://www.rug.nl/ggdc/productivity/pwt/). You can download an Excel file. Make sure to put it in the right directory when reading it:
+Next, we'll proceed to find some potential determinants of GDP growth. One of the classical determinants of GDP per capita growth is the level of physical capital. Many models in macroeconomics explain economic well-being on account of the amount of capital in an economy. In particular, we'll look for a few measures from the Penn World Tables. This data has to be downloaded manually from [this website](https://www.rug.nl/ggdc/productivity/pwt/). You can either manually download an Excel file, in which case, make sure to put it in the right directory when reading it. Or, you can run the following chunk, which downloads the file to your working directory:
 
 ```{r}
-p_load("readxl")
+pacman::p_load("readxl")
+
+wd <- getwd()
+download.file("https://www.rug.nl/ggdc/docs/pwt100.xlsx", file.path(wd, "pwt100.xlsx"))
 
 pwt <- readxl::read_excel('pwt100.xlsx', sheet = 3)
 ```
