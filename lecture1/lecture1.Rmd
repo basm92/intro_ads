@@ -207,7 +207,7 @@ plot
 ```
 
 \begin{center}
-\animategraphics[autoplay,loop,height=6cm]{1}{gganim_plot0}{001}{100}
+\animategraphics[autoplay,loop,height=6cm]{4}{gganim_plot0}{001}{100}
 \end{center}
 
 
