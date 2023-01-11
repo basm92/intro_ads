@@ -26,13 +26,29 @@ date_thirdassignment <- "tba"
 officehours <- "Thursday 16:00 - 17:00"
 ```
 
-Data Science is an emergent discipline growing faster due to the large amounts of data that we are generating, the maturity of information and communication technologies (ICT) and the high availability of high-end computational systems. Data Science works in the intersection between statistics, mathematics and computer programming. However, the key emphasis of Data Science is difference than the other disciplines. Statistics and Econometrics justify the development of algorithms primarily for inferential methods: parameter estimation for causal effect. However, in Data Science, the development of algorithms is justified to make more precise predictions and for complex problem-solving (Efron, 2021). Data Science and Machine Learning (ML) use powerful numerical methods and computer training to solve problems (Athey and Imbens, 2019). Data Science focuses on the one hand on how to process and interpret data to answer real-world questions. On the other hand, relies heavily on strong coding skills, to acquire, clean, manipulate and visualize data for analysis. 
+This course will introduce you to the modern data science toolkit. Data Science is an emergent discipline growing faster and faster due to the large amounts of data that we have at our disposal, and increases in computational power and flexibility. In the words of [Vanderplas](https://jakevdp.github.io/PythonDataScienceHandbook/00.00-preface.html), data science is:
 
-In this course, we develop these skills using the R-language, which has many advantages for Data Science. Firstly, is a free open-source computer language with a large community of Data Scientists, Economists and Statisticians working together to develop state-of-the-art algorithms and packages. Secondly, there is a large market of companies and universities that require knowledge of R. Thus, the main objective of this course is to introduce students with no prior knowledge of R-programming to tools and methods used in Data Science.
+> fundamentally an interdisciplinary subject. Data science comprises three distinct and overlapping areas: the skills of a statistician who knows how to model and summarize datasets (which are growing ever larger); the skills of a computer scientist who can design and use algorithms to efficiently store, process, and visualize this data; and the domain expertise - what we might think of as "classical" training in a subject—necessary both to formulate the right questions and to put their answers in context.
+
+The course will provide a **practical introduction** to the tools and techniques that are at the heart of modern data science. We will focus on aspects such as:
+
+  - **Data acquisition** by means of e.g. text mining, querying relational database, and web scraping. 
+  
+  - **Data wrangling and cleaning** to turn messy, disorganized data into tidy data that can be analyzed. 
+
+  - Techniques of data analysis that are traditionally excluded from econometrics courses such as **spatial analysis and visualization**.
+  
+  - Topics that teach you to have an effective workflow, like **version control and effective project management**. 
+  
+The aim of the course is to be _broad_ rather than _deep_, giving a broad overview of the tools available. More in-depth courses on programming, deep learning, and econometrics will be given in later courses. However, this course does plan to familiarize you with the _basic_ aspects of these techniques, so as to facilitate the development of your skills. 
+
+Coming back to the _domain-specific_ expertise: most of the applications and assignments in this course ask you to answer concrete economic questions. The philosophy behind these assignments is that you answer questions from the ground up, just like researchers do, and just like you will have to do at a later stage of your study. As such, this course also gives you an introduction into what economists do when they conduct _empirical research_. 
+  
+Finally, what is left out of this course? We don't pay attention to two more advanced topics: cloud computation and parallel computing. Cloud computation concerns the outsourcing of your computational work to more powerful computers, often using commercial services. Parallel computing focuses on paralleling your computational tasks over different processor cores, often giving enormous speed improvements. This is also not a deep learning course. The course does not focus on neural networks and their derivatives to leverage artificial intelligence for economic goals. 
+
+In this course, we develop these skills using the R programming language, which has many advantages for Data Science. Firstly, it is a free open-source programming language with a large community of data scientists, economists and statisticians working together to develop state-of-the-art algorithms and packages. Secondly, there is a large market of companies and universities that require knowledge of R. Thirdly, **it is easy and logical**. 
 
 - This course features one weekly lecture (2 contact hours), and 1 tutorial (2 contact hours), and office hours, during which students can ask questions `r officehours`. You can also ask questions by e-mail. 
-
-\clearpage
 
 ## Overview
 

@@ -4,7 +4,7 @@ Repository for the course Introduction to Applied Data Science (Utrecht Universi
 
 ### Syllabus
 
-See [here](www.link.com) for the syllabus of the course. 
+See [here](https://github.com/basm92/intro_ads/blob/master/syllabus/syllabus.pdf) for the syllabus of the course. 
 
 ### Lecture Slides
 
@@ -24,4 +24,4 @@ See [here](www.link.com) for the syllabus of the course.
   - [Happy Git With R](https://happygitwithr.com/): Happy Git provides opinionated instructions on how to install Git and get it working smoothly with GitHub, in the shell and in the RStudio IDE. It also contains a few key workflows that cover your most common tasks, and how to integrate Git and GitHub into your daily work with R and R Markdown.
   - [Text Mining with R](https://www.tidytextmining.com/). This book introduces the tidytext, a package which introduces the methods of data wrangling and visualization to text. 
 - [Data Science for Economists Course Repo](https://github.com/uo-ec607/lectures) [and Book (in Progress)](https://grantmcdermott.com/ds4e/spatial-analysis.html): More advanced lectures and a book aimed at Economics PhD students from which I borrow materials.
-
+- [Python for Data Analysis](https://wesmckinney.com/book/): this is a similar book to **R For Data Science**, but written for Python users. 
