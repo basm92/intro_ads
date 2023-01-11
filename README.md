@@ -9,11 +9,11 @@ See [here](https://github.com/basm92/intro_ads/blob/master/syllabus/syllabus.pdf
 ### Lecture Slides
 
 - Lecture 1: Introduction to Data Science and Big Data [Slides] [Rmd]
-- Lecture 2: Programming Basics [Slides] [Rmd]
-- Lecture 3: Tables and Graphs [Slides] [Rmd]
-- Lecture 4: Programming Flow & Algorithms [Slides] [Rmd]
-- Lecture 5: Debugging & Handling Errors [Slides] [Rmd]
-- Lecture 6: Writing Reports in RMarkdown [Slides] [Rmd]
+- Lecture 2: Data Wrangling and Cleaning [Slides] [Rmd]
+- Lecture 3: Visualization: Tables & Graphs [Slides] [Rmd]
+- Lecture 4: Web Scraping [Slides] [Rmd]
+- Lecture 5: Text Mining [Slides][Rmd]
+- Lecture 6: Debugging & Handling Errors & Writing Reports [Slides] [Rmd]
 - Lecture 7: Collaborating Effectively with Version Control [Slides] [Rmd]
 - Lecture 8: The Ethics of AI [Slides] [Rmd]
 
