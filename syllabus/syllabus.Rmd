@@ -46,7 +46,7 @@ Coming back to the _domain-specific_ expertise: most of the applications and ass
   
 Finally, what is left out of this course? We don't pay attention to two more advanced topics: cloud computation and parallel computing. Cloud computation concerns the outsourcing of your computational work to more powerful computers, often using commercial services. Parallel computing focuses on paralleling your computational tasks over different processor cores, often giving enormous speed improvements. This is also not a deep learning course. The course does not focus on neural networks and their derivatives to leverage artificial intelligence for economic goals. 
 
-In this course, we develop these skills using the R programming language, which has many advantages for Data Science. Firstly, it is a free open-source programming language with a large community of data scientists, economists and statisticians working together to develop state-of-the-art algorithms and packages. Secondly, there is a large market of companies and universities that require knowledge of R. Thirdly, **it is easy and logical**. 
+In this course, we develop these skills using the R programming language, which has many advantages for Data Science. Firstly, it is a free open-source programming language with a large community of data scientists, economists and statisticians working together to develop state-of-the-art algorithms and packages. Secondly, there is a large market of companies and universities that require knowledge of R. Thirdly, it is **easy and logical**. 
 
 - This course features one weekly lecture (2 contact hours), and 1 tutorial (2 contact hours), and office hours, during which students can ask questions `r officehours`. You can also ask questions by e-mail. 
 
@@ -140,7 +140,7 @@ Mathematics, Statistics and introductory economics courses. This course is part 
 On effective completion of the course, students should:
 
   - Understand principles of programming on an applied level
-  - Particularly, understand and be able to independently produce R code solving applied problems
+  - Understand and be able to independently produce R code solving applied problems
   - Being able to extrapolate the knowledge to other programming languages
   - Gather, manipulate and wrangle untidy datasets
   - Understand how to deal with errors and how to debug code
